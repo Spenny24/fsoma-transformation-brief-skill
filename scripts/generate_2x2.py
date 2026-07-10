@@ -1,6 +1,6 @@
 """
 Generates a 2x2 impact vs effort chart as a PNG, for embedding into the
-FSOMA Transformation Brief Kit docx.
+FSOMA Transformation Report Kit docx.
 
 Usage:
     python generate_2x2.py --output impact_effort.png
@@ -47,17 +47,8 @@ WORKFLOWS = [
     {"name": "Workflow orchestration", "impact": 8, "effort": 8},
 ]
 
-# Points closer than this (in chart units, axes run 0-10) are treated as
-# colliding. 1.4 is roughly the space a short label needs before it starts
-# overlapping its neighbour's marker or text at this chart size.
 COLLISION_DISTANCE = 1.4
-
-# Labels longer than this look cramped directly on a data point regardless
-# of collision, switch to the legend once any label crosses this length.
 MAX_INLINE_LABEL_LENGTH = 18
-
-# More than this many points makes even non-colliding inline labels feel
-# busy, switch to the legend regardless of spacing.
 MAX_INLINE_ITEM_COUNT = 8
 
 
@@ -78,32 +69,19 @@ def generate_chart(workflows, output_path):
 
     fig, ax = plt.subplots(figsize=(8, 6), dpi=150)
 
-    ax.axvspan(0, 5, ymin=0.5, ymax=1, color="#E8F3E8", zorder=0)   # quick wins
-    ax.axvspan(5, 10, ymin=0.5, ymax=1, color="#E8ECF3", zorder=0)  # major projects
-    ax.axvspan(0, 5, ymin=0, ymax=0.5, color="#F5F5F0", zorder=0)   # fill-ins
-    ax.axvspan(5, 10, ymin=0, ymax=0.5, color="#F3E8E8", zorder=0)  # deprioritize
+    ax.axvspan(0, 5, ymin=0.5, ymax=1, color="#E8F3E8", zorder=0)
+    ax.axvspan(5, 10, ymin=0.5, ymax=1, color="#E8ECF3", zorder=0)
+    ax.axvspan(0, 5, ymin=0, ymax=0.5, color="#F5F5F0", zorder=0)
+    ax.axvspan(5, 10, ymin=0, ymax=0.5, color="#F3E8E8", zorder=0)
 
     legend_lines = []
     for i, wf in enumerate(workflows, start=1):
         ax.scatter(wf["effort"], wf["impact"], s=110, color="#1F2937", zorder=3)
         if use_legend:
-            ax.annotate(
-                str(i),
-                (wf["effort"], wf["impact"]),
-                ha="center", va="center",
-                color="white", fontsize=8, fontweight="bold",
-                zorder=4,
-            )
+            ax.annotate(str(i), (wf["effort"], wf["impact"]), ha="center", va="center", color="white", fontsize=8, fontweight="bold", zorder=4)
             legend_lines.append(f"{i}. {wf['name']}")
         else:
-            ax.annotate(
-                wf["name"],
-                (wf["effort"], wf["impact"]),
-                textcoords="offset points",
-                xytext=(6, 6),
-                fontsize=8,
-                zorder=4,
-            )
+            ax.annotate(wf["name"], (wf["effort"], wf["impact"]), textcoords="offset points", xytext=(6, 6), fontsize=8, zorder=4)
 
     ax.axhline(5, color="#999999", linewidth=0.8, zorder=1)
     ax.axvline(5, color="#999999", linewidth=0.8, zorder=1)
@@ -121,10 +99,7 @@ def generate_chart(workflows, output_path):
 
     if use_legend:
         legend_text = "\n".join(legend_lines)
-        fig.text(
-            1.02, 0.5, legend_text,
-            transform=ax.transAxes, fontsize=8, va="center", ha="left",
-        )
+        fig.text(1.02, 0.5, legend_text, transform=ax.transAxes, fontsize=8, va="center", ha="left")
         plt.subplots_adjust(right=0.62)
     else:
         plt.tight_layout()
