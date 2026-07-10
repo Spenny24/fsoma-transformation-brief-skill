@@ -35,7 +35,7 @@ This means public release does not require a large benchmark library. It require
 
 ## Benchmark register status
 
-- `references/default-benchmark-register.md`: 1 row. McKinsey, "The economic potential of generative AI: The next productivity frontier," 5-15% marketing function productivity uplift, published 14 June 2023. Traced directly against mckinsey.com. All ten client-facing conditions met. This is the load-bearing figure for Commercial Model Category 1, so this one row already unlocks a real client-facing productivity claim in Mode 2, not just internal-challenge output.
+- `references/default-benchmark-register.md`: 1 row. McKinsey, "The economic potential of generative AI: The next productivity frontier," 5-15% marketing function productivity uplift, published 14 June 2023. Traced directly against mckinsey.com. All ten client-facing conditions met. This is the only currently verified client-facing benchmark for Commercial Model Category 1. It may support a client-facing AI-productivity claim where the client's spend baseline and functional scope match the benchmark. It does not validate the client's baseline, benefit estimate, ROI or payback by itself.
 - `references/benchmark-sourcing-backlog.md`: 12 candidate rows, all Secondary/internal or Draft/unverified. One rejected finding worth flagging directly: the commonly repeated "87% of marketers use generative AI in at least one workflow" Salesforce figure could not be confirmed on a Salesforce-owned page. The primary Salesforce page found and fetched directly states 75% general AI adoption, a related but different metric, published 19 February 2026. Do not use 87% anywhere in client-facing output until the full downloadable report PDF is checked directly.
 
 ## Test history
