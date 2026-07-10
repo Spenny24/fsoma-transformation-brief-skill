@@ -24,7 +24,7 @@ Schema: benchmark_id, benchmark_name, metric, value_or_range, unit, source_title
 - geography_scope: Global
 - allowed_use: Client-facing
 - evidence_status: Primary verified
-- notes: Confirmed directly on mckinsey.com. Full quote basis: "We estimate that generative AI could increase the productivity of the marketing function with a value between 5 and 15 percent of total marketing spending." This is the load-bearing figure for Commercial Model Category 1 (AI productivity). Report also gives adjacent figures for customer operations (30-45%) and sales (3-5%), not marketing-specific, do not substitute those in for a marketing claim.
+- notes: Confirmed directly on mckinsey.com. Full quote basis: "We estimate that generative AI could increase the productivity of the marketing function with a value between 5 and 15 percent of total marketing spending." This is the only currently verified client-facing benchmark for Commercial Model Category 1. It may support a client-facing AI-productivity claim where the client's spend baseline and functional scope match the benchmark. It does not validate the client's baseline, benefit estimate, ROI or payback by itself. Report also gives adjacent figures for customer operations (30-45%) and sales (3-5%), not marketing-specific, do not substitute those in for a marketing claim.
 
 ---
 
