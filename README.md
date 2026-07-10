@@ -1,8 +1,8 @@
-# FSOMA Transformation Brief Kit
+# FSOMA Transformation Report Kit
 
 FSOMA stands for Future-State Operating Model Assessment.
 
-A Claude skill that turns a client's "as-is" operating model data, current workflows, tech stack, RACI, KPIs, spend, into a leadership-ready transformation business case. Output is a single Word document covering current state assessment, future state roadmap, future RACI, technology recommendations, a KPI model with benchmark overlay, a 2x2 impact vs effort chart, and a four-category commercial model.
+A Claude skill that turns a client's "as-is" operating model data, current workflows, tech stack, RACI, KPIs, spend, into a leadership-ready transformation report. Output is a single Word document covering current state assessment, future state roadmap, future RACI, technology recommendations, a KPI model with benchmark overlay, a 2x2 impact vs effort chart, and a four-category commercial model.
 
 Release status: v0.9, Public Preview. Public on GitHub. Not yet approved for Claude marketplace listing. See `RELEASE_NOTES.md` for the full gate criteria and what is and isn't done.
 
@@ -10,7 +10,7 @@ This is not client-ready ROI automation. Every commercial figure this skill prod
 
 ## What this does
 
-Feed it client discovery data, in any format, complete or partial, and it produces a structured leadership brief with:
+Feed it client discovery data, in any format, complete or partial, and it produces a structured leadership report with:
 
 1. Executive Readout with named leadership decisions, not just findings.
 2. Current state workflow, RACI, KPI, and technology assessment, every row tagged by evidence confidence.
@@ -20,6 +20,7 @@ Feed it client discovery data, in any format, complete or partial, and it produc
 6. A commercial model split into four categories, AI productivity, spend recovery, tooling rationalisation, and revenue growth, never blended into one number.
 7. A 2x2 impact vs effort chart, collision-safe by design.
 8. Risk flags and recommended next steps, every material gap converted into a named decision or action.
+9. Data Foundation Readiness, always present, even when no formal Data Inventory is supplied.
 
 ## Benchmark handling
 
@@ -33,12 +34,14 @@ Full schema and rules are in `SKILL.md` and `references/default-benchmark-regist
 
 ## Install
 
-This is a Claude skill. Drop the `fsoma-transformation-brief-skill` folder into your skills directory, or package it with Anthropic's skill-creator tooling into a `.skill` file and install it through your Claude environment's skill manager.
+This is a Claude skill. Drop the `fsoma-transformation-report-skill` folder into your skills directory, or package it with Anthropic's skill-creator tooling into a `.skill` file and install it through your Claude environment's skill manager.
+
+The GitHub repository path may still use the historical `fsoma-transformation-brief-skill` slug. The product and technical identifier are now Report.
 
 ## Folder structure
 
-```
-fsoma-transformation-brief-skill/
+```text
+fsoma-transformation-report-skill/
   SKILL.md                                  Main skill definition and pipeline
   README.md                                 This file
   RELEASE_NOTES.md                          Version status and release gate
@@ -50,8 +53,8 @@ fsoma-transformation-brief-skill/
   scripts/
     generate_2x2.py                         Impact vs effort chart generator
   examples/
-    NexaGlow_FSOMA_Transformation_Brief_FINAL.docx   Fictional test-brand sample output
-    impact_effort_nexaglow_final.png                 Sample chart output
+    NexaGlow_FSOMA_Transformation_Report_FINAL.docx   Fictional test-brand sample output
+    impact_effort_nexaglow_final.png                  Sample chart output
 ```
 
 ## Example
