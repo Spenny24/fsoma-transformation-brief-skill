@@ -52,7 +52,7 @@ Payback = (implementation cost estimate) / (monthly savings, base scenario, AI p
 
 Implementation cost estimate should include: tooling/licensing, integration or build cost, and change management/training cost. If any of these three are unknown, state that payback is directionally indicative and needs a costed implementation plan to firm up, don't present a precise month count off an incomplete cost base. Current tool run-rate cost, where available, is operating cost, not implementation cost, don't substitute one for the other.
 
-## Output format for the brief
+## Output format for the report
 
 For each of the four benefit categories: a short subsection stating baseline, target, evidence level, and (for AI productivity) the three-scenario table.
 
