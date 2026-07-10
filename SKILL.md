@@ -1,13 +1,13 @@
 ---
-name: fsoma-transformation-brief-skill
-description: "Use this skill whenever the user shares client 'as-is' state data for content production, marketing, or creative operations (current operating model, tech stack, RACI, KPIs, spend, in any format) and wants a leadership-ready operating model business case. Also trigger on mentions of FSOMA, Future-State Operating Model Assessment, operating model assessment, transformation business case, future state roadmap, or content production transformation. This skill turns messy, incomplete, or unstructured client discovery data into a structured Word document covering current state assessment, future state roadmap, future RACI, tech recommendations, AI and automation opportunity mapping, KPI model with industry benchmarks, a 2x2 impact vs effort chart, and a commercial model with payback months and savings scenarios. Trigger even if the user only shares partial data (e.g. just a tech stack list, or just a RACI) — the skill flags gaps rather than refusing to run."
+name: fsoma-transformation-report-skill
+description: "Use this skill whenever the user shares client 'as-is' state data for content production, marketing, or creative operations (current operating model, tech stack, RACI, KPIs, spend, in any format) and wants a leadership-ready operating model report. Also trigger on mentions of FSOMA, Future-State Operating Model Assessment, operating model assessment, transformation report, transformation business case, future state roadmap, or content production transformation. This skill turns messy, incomplete, or unstructured client discovery data into a structured Word document covering current state assessment, future state roadmap, future RACI, tech recommendations, AI and automation opportunity mapping, KPI model with industry benchmarks, a 2x2 impact vs effort chart, and a commercial model with payback months and savings scenarios. Trigger even if the user only shares partial data (e.g. just a tech stack list, or just a RACI) — the skill flags gaps rather than refusing to run."
 ---
 
-# FSOMA Transformation Brief Kit
+# FSOMA Transformation Report Kit
 
-Turns client "as-is" operating model data into a leadership-ready transformation business case. You are acting as a senior AI, Tech, and Production Transformation Consultant. The output is a single Word document, structured like the reference example in `references/output-structure.md`.
+Turns client "as-is" operating model data into a leadership-ready transformation report. You are acting as a senior AI, Tech, and Production Transformation Consultant. The output is a single Word document, structured like the reference example in `references/output-structure.md`.
 
-FSOMA stands for Future-State Operating Model Assessment. Public name: FSOMA Transformation Brief Kit. Technical identifier: fsoma-transformation-brief-skill. Naming is locked, no longer an open item.
+FSOMA stands for Future-State Operating Model Assessment. Public name: FSOMA Transformation Report Kit. Technical identifier: fsoma-transformation-report-skill. Naming is locked as Report, no longer an open item.
 
 Release status: v0.9, Public Preview. Public on GitHub. Not approved for Claude marketplace listing. Client-facing use is conditional on verified benchmarks, either your own or user-provided, per Mandatory Analytical Behaviour 7. See `RELEASE_NOTES.md` for the full gate criteria.
 
@@ -16,11 +16,44 @@ Claude marketplace positioning, for when that release happens (separate from the
 ## When this runs
 
 Trigger on any of:
+
 - Client discovery data shared in any format (docx, xlsx, csv, pdf, pasted text, HTML export)
-- A request for an operating model assessment, transformation business case, or future state roadmap
+- A request for an operating model assessment, transformation business case, transformation report, or future state roadmap
 - Direct mentions of FSOMA
 
 Data is often incomplete. Never block on missing categories. Flag gaps in the output instead.
+
+## Output Format Contract — NexaGlow Standard
+
+The final output must always follow the approved NexaGlow-style AI Operating Model Report format.
+
+This is mandatory on every run unless the user explicitly asks for a different format.
+
+The skill must not output:
+
+- a QA memo
+- a two-part "Consultant QA Review / Leadership Rewrite"
+- a freeform transformation brief
+- an Apex-style report
+- a generic markdown report
+- a different section order
+- a different heading structure
+
+The NexaGlow-style report is the locked client-output format.
+
+### Source versus format rule
+
+When an n8n report is supplied, treat it as the source draft.
+
+When a NexaGlow-style document or reference structure is available, treat it as the format and writing-style reference.
+
+The correct operating logic is:
+
+```text
+n8n report = source content and first-pass structure
+NexaGlow report = final output style, section order, tone and report rhythm
+Claude Skill = silent QA, correction, evidence discipline and finalisation layer
+```
 
 ## Inputs
 
@@ -39,7 +72,7 @@ If a core category is missing from what the user shares, do not fabricate it. Ma
 
 ## Mandatory analytical behaviours
 
-These apply on every run, regardless of how complete the input data is. They are not optional refinements, they are the difference between a data dump and a consultant's brief.
+These apply on every run, regardless of how complete the input data is. They are not optional refinements, they are the difference between a data dump and a consultant's report.
 
 ### 1. Separate evidence levels
 
@@ -110,6 +143,7 @@ evidence_status is one of: Primary verified, Secondary/internal, Draft/unverifie
 allowed_use is one of: Client-facing, Internal challenge only, Exclude.
 
 A benchmark is only usable in client-facing or marketplace-demo output when all ten of these are true:
+
 1. source_organisation is present
 2. source_title is present
 3. source_url is present
@@ -128,10 +162,27 @@ This means public release does not require a large benchmark library. It require
 ### 8. Table rendering
 
 Any main-body table with more than 6 columns does not go in the main body as-is. Either:
+
 - Reduce it to decision-critical columns only (typically: identifier, name, the 1-2 scored or status fields, the recommendation), and move the full table to a landscape-oriented appendix, or
 - If every column is genuinely decision-critical, render the table on a landscape page instead of portrait.
 
 Never let a short header (ID, Volume, Rework, Impact, Effort, Confidence, Status, Recommendation) split across two lines. Never let an identifier value (WF01, KPI01, T01) wrap. If a table still renders badly after these steps, per Stage 5's visual verification, replace it with a summary table plus an appendix reference rather than shipping it as-is.
+
+### 9. Word output polish rules
+
+These are build rules, not cosmetic preferences:
+
+- Never put "Appendix" in the main report title unless the page is actually an appendix.
+- The title page must use this format: Client Name; AI Operating Model Report; Future-State Operating Model Assessment.
+- Appendices must start only after Section 14.
+- Appendices must be clearly labelled Appendix A, Appendix B, etc.
+- Numbered lists must render as real Word numbering, not repeated "1." items.
+- If reliable Word numbering cannot be guaranteed, use bullets instead of numbered lists.
+- Table headers must be styled consistently.
+- Tables must have clear header rows, readable spacing and sensible column widths.
+- Long tables must go into appendices.
+- No orphaned page labels.
+- No appendix continuation text before the appendix section begins.
 
 ## Pipeline
 
@@ -144,6 +195,7 @@ Output of this stage (internal, not shown to user): a seven-part as-is state sum
 ### Stage 2 — Assess
 
 Score each identified workflow step for:
+
 - Cost (relative, based on stated or inferred spend/effort)
 - Manual effort (high/medium/low)
 - Automation readiness (high/medium/low, based on how structured/repeatable the step is)
@@ -155,6 +207,7 @@ This produces the priority workflow opportunities table, same shape as the "Prio
 ### Stage 3 — Design future state
 
 Build three outputs:
+
 - **Future state roadmap**: phased (typically 3-4 phases), each phase with a named workflow scope, what changes, and a rough timeline. Do not invent timelines without basis, tie them to stated organizational complexity. Sequence by evidence confidence and AI readiness first, executive visibility second. If the source data provides its own pilot-wave or sequencing field, use it and verify it against the impact/effort scores rather than overriding it on sight.
 - **Future RACI**: same activities as the current RACI, redesigned to show where AI supports (prepares, routes, reports) versus where a named human role stays accountable for final decisions. Never assign AI as Accountable. This is a hard rule. Where Mandatory Analytical Behaviour 2 flagged a governance gap, carry that gap forward into the future-state RACI unchanged, do not resolve it with an assumption.
 - **Tech recommendations**: for each tool in the current stack, mark keep / replace / consolidate / validate, with a one-line reason. If the source data provides its own recommendation-candidate field, use it as the starting point and refine it into a decision-ready form, don't discard it in favour of a generic "validate everything" pass.
@@ -168,11 +221,12 @@ Four outputs, built together since they share inputs:
 3. **Commercial model**: four separate benefit categories per Mandatory Analytical Behaviour 3, each with three scenarios (conservative, base, optimistic) where benchmark-derived, or a single evidenced figure where not benchmark-based (spend recovery and tooling rationalisation are usually point estimates, not benchmark ranges). Run the cross-check per Mandatory Analytical Behaviour 4. See `references/commercial-model.md` for the calculation method.
 4. **Risk flags**: carry forward anything marked low-confidence, "requires validation," or a governance gap from earlier stages into a short risk list. Where category 7 (Risk & Assumption Register) was provided, merge the client's own named risks in by their original ID rather than restating them as new findings.
 
-### Stage 5 — Assemble
+### Stage 5 — Assemble in NexaGlow Report Format
 
 Build the Word document. Read `/mnt/skills/public/docx/SKILL.md` before writing any docx code, table widths, list formatting, and image insertion all have specific gotchas there. Widen ID columns enough that short codes (WF01, KPI01, T01) don't wrap onto two lines. Verify the rendered PDF before delivering, not just that the script ran without error.
 
 Document sections, in order:
+
 1. Executive Readout
 2. Current State: Priority Workflow Opportunities
 3. Current State: Operating Accountability (RACI)
@@ -185,10 +239,12 @@ Document sections, in order:
 10. Impact vs Effort (2x2 chart, embedded image)
 11. Commercial Model (four benefit categories, cross-checked)
 12. Risk Flags and Validation Needed
-13. Data Foundation Readiness (only if category 6 was provided)
+13. Data Foundation Readiness
 14. Recommended Next Steps
 
-Every major table gets a short "Our recommendation" callout after it, in first-person-plural consultant voice, stating what leadership should do with the data, not just what the data says. Match the tone of `references/output-structure.md`: direct, leadership-brief register, no filler, every bullet ties to a decision.
+Section 13 must always appear. If no formal Data Inventory was supplied, state: "No formal data inventory was supplied with this source report. The readiness signal below is drawn from evidence gaps surfaced during this review, not a structured completeness audit."
+
+Every major table gets a short "Our recommendation" callout after it, in first-person-plural consultant voice, stating what leadership should do with the data, not just what the data says. Match the tone of `references/output-structure.md`: direct, leadership-report register, no filler, every bullet ties to a decision.
 
 ### Mandatory pre-delivery visual QA
 
@@ -205,8 +261,13 @@ Do not mark a run production-ready without doing this, in order, every time:
 9. Check no unverified benchmark (anything short of all ten Behaviour 7 client-facing conditions) appears in a document labelled for client use. Check the correct mode fired (user-provided, default, or graceful degradation) and that the required wording appears wherever Mode 3 applies.
 10. Check no RACI row has an invented owner, and every gapped row is excluded from the future-state RACI per Mandatory Analytical Behaviour 2.
 11. Check no revenue-growth case has been fabricated from a non-revenue KPI, per Mandatory Analytical Behaviour 3.
+12. Check the title page does not incorrectly include "Appendix".
+13. Check numbered lists render correctly and do not show repeated "1." unless intentionally using markdown auto-numbering before conversion.
+14. Check appendices begin only after Section 14.
+15. Check appendix pages are clearly labelled and separated from the main report.
+16. Check table header styling and column widths are consistent across the document.
 
-A run that fails any of these eleven checks is not production-ready. Fix it before delivering, don't note it as a known issue and ship anyway.
+A run that fails any of these sixteen checks is not production-ready. Fix it before delivering, don't note it as a known issue and ship anyway.
 
 ## Reference files
 
@@ -225,7 +286,7 @@ A run that fails any of these eleven checks is not production-ready. Fix it befo
 Full detail in `RELEASE_NOTES.md`. Summary:
 
 - Three test runs complete, build phase closed. No further mock-report iteration planned unless a regression is found.
-- `references/default-benchmark-register.md` now has one Primary verified, Client-facing row (McKinsey, 5-15% marketing productivity uplift), traced and confirmed directly against mckinsey.com. This is the load-bearing figure for Commercial Model Category 1, so this one row already unlocks a real client-facing productivity claim, not just internal-challenge output.
+- `references/default-benchmark-register.md` now has one Primary verified, Client-facing row (McKinsey, 5-15% marketing productivity uplift), traced and confirmed directly against mckinsey.com. This is the only currently verified client-facing benchmark for Commercial Model Category 1. It may support a client-facing AI-productivity claim where the client's spend baseline and functional scope match the benchmark. It does not validate the client's baseline, benefit estimate, ROI or payback by itself.
 - `references/benchmark-sourcing-backlog.md` holds 12 further candidates, all Secondary/internal or Draft/unverified. One flagged discrepancy worth knowing: the commonly repeated "87% of marketers use GenAI" Salesforce figure could not be confirmed on a Salesforce-owned page, the primary page found states 75% for a related but different metric. Do not use 87% anywhere until the full report PDF is checked.
 - Supabase storage decision is the only open architecture item, whether this skill logs outputs to the existing FSOMA memory layer or stays standalone. Naming is resolved, not open.
 
