@@ -41,6 +41,48 @@ The skill must not output:
 
 The NexaGlow-style report is the locked client-output format.
 
+### Report density and sample-style rule
+
+The final report should match the full GitHub sample report style, not a compressed leadership brief.
+
+When producing a client-style output, use the fuller report pattern demonstrated by the Meridian Trust Bank sample report:
+
+- detailed executive readout
+- section-level tables with evidence tags
+- clear "Our recommendation" callouts
+- full workflow, KPI, RACI, technology and commercial evidence where supplied
+- commercial model separated across all four benefit categories
+- benchmark governance stated clearly where relevant
+- full Section 13 Data Foundation Readiness
+- Section 14 closing every material decision and validation gap
+- appendices containing full registers where tables are too wide or too detailed for the main body
+- page rhythm and density closer to the Meridian Trust Bank 22-page sample than a short briefing note
+
+Do not compress the output into a short leadership brief unless the user explicitly asks for a brief version.
+
+The default output is a full AI Operating Model Transformation Report.
+
+### Report naming rule
+
+Never describe the generated output as a "brief".
+
+Use "report" throughout:
+
+- report title
+- metadata
+- footer
+- callouts
+- recommendation text
+- internal references to the output
+
+Only retain "brief" where it refers to a real operational input, for example:
+
+- creative brief
+- client brief
+- briefing workflow
+- brief intake
+- moves from brief to delivery
+
 ### Source versus format rule
 
 When an n8n report is supplied, treat it as the source draft.
@@ -66,7 +108,7 @@ Seven categories. Categories 1-5 are core. Categories 6-7 are optional. If a cat
 5. Current spend (production, media, or both)
 6. Data Inventory (optional). System of record, owner, completeness %, refresh cadence, known issues per dataset. When present, it must inform: KPI confidence (Mandatory Analytical Behaviour 1), roadmap sequencing (Stage 3), automation readiness scoring (Stage 2), reporting feasibility (Section 9), data-foundation risks (Section 12), and commercial model confidence (Section 11, a KPI baseline sitting on a low-completeness dataset weakens the evidence tag on any commercial figure built from it). Not background context, it has to change the output.
 7. Risk & Assumption Register (optional). Client-known risks, severity, likelihood, mitigation owner, decision needed. When present, it must inform: the Executive Readout (Section 1), the Commercial Model (Section 11, cite the client's own risk ID directly), the Risk Flags section (Section 12), and Recommended Next Steps (Section 14). Not background context, it has to change the output.
-8. User-provided Benchmark Register (optional). The user's own benchmark data, in the schema described in Mandatory Analytical Behaviour 7. When present, it is the preferred benchmark source ahead of the skill's own default register, for any metric both registers cover. Validate every row against the schema before using it. Never take a user's stated evidence_status or allowed_use at face value, if the required fields for Client-facing use are not all present, the row does not get Client-facing treatment regardless of what the user's file says.
+8. User-provided Benchmark Register (optional). The user's own benchmark data, in the schema described in Mandatory Analytical Behaviour 7. When present, it is the preferred benchmark source ahead of the skill's own default register, for any metric both registers cover. Validate every row against the schema before using it. Never take a user's stated evidence_status or allowed_use at face value; if the required fields for Client-facing use are not all present, the row does not get Client-facing treatment regardless of what the user's file says.
 
 If a core category is missing from what the user shares, do not fabricate it. Mark it as a validation gap in Stage 1 output and carry that gap forward into the final KPI table, same as `references/output-structure.md` does.
 
@@ -76,24 +118,24 @@ These apply on every run, regardless of how complete the input data is. They are
 
 ### 1. Separate evidence levels
 
-Every baseline, KPI, RACI row, technology entry, and commercial claim carries one of four evidence tags: Validated, Partially validated, Needs validation, Not evidenced. Needs validation means data exists but is unconfirmed. Not evidenced means no data exists at all, the figure would have to be invented to state a number, so no number is stated. If the source data provides its own confidence or validation-status field, use it directly rather than re-deriving one. If it doesn't, infer conservatively and say the tag is inferred, not sourced. Never present a number without its evidence tag sitting next to it.
+Every baseline, KPI, RACI row, technology entry, and commercial claim carries one of four evidence tags: Validated, Partially validated, Needs validation, Not evidenced. Needs validation means data exists but is unconfirmed. Not evidenced means no data exists at all, the figure would have to be invented to state a number, so no number is stated. If the source data provides its own confidence or validation-status field, use it directly rather than re-deriving one. If it does not, infer conservatively and say the tag is inferred, not sourced. Never present a number without its evidence tag sitting next to it.
 
 ### 1a. Close every gap in Section 14
 
-Every material gap raised in the Executive Readout (Section 1) or the Commercial Model (Section 11) must appear again, as a concrete action, in Recommended Next Steps (Section 14). Run this check against all seven gap types listed in Mandatory Analytical Behaviour 5, not just whichever ones happened to surface in a given run. A decision that only exists in Section 1 has not been closed, it has been mentioned once and left. Before finishing Stage 5, cross-check the Section 1 decision list against the Section 14 action list line by line. If a Section 1 item has no matching Section 14 action, that is a build error, fix it before delivering.
+Every material gap raised in the Executive Readout (Section 1) or the Commercial Model (Section 11) must appear again, as a concrete action, in Recommended Next Steps (Section 14). Run this check against all seven gap types listed in Mandatory Analytical Behaviour 5, not just whichever ones happened to surface in a given run. A decision that only exists in Section 1 has not been closed; it has been mentioned once and left. Before finishing Stage 5, cross-check the Section 1 decision list against the Section 14 action list line by line. If a Section 1 item has no matching Section 14 action, that is a build error; fix it before delivering.
 
 ### 2. Do not invent owners
 
-If a RACI row is missing Responsible or Accountable for an activity the client has otherwise evidenced (volume, cycle time, or workflow data exists for it), do not fill the gap with an inferred owner. Flag it explicitly as a governance gap in the current-state RACI section. Exclude that activity from the future-state RACI table entirely, do not carry a gapped row forward into a table that implies AI is ready to support it. Add a named leadership decision (Section 1) to assign an owner, and a matching action (Section 14) to close it. Only add the activity back into the future-state RACI once an owner is assigned.
+If a RACI row is missing Responsible or Accountable for an activity the client has otherwise evidenced (volume, cycle time, or workflow data exists for it), do not fill the gap with an inferred owner. Flag it explicitly as a governance gap in the current-state RACI section. Exclude that activity from the future-state RACI table entirely; do not carry a gapped row forward into a table that implies AI is ready to support it. Add a named leadership decision (Section 1) to assign an owner, and a matching action (Section 14) to close it. Only add the activity back into the future-state RACI once an owner is assigned.
 
 ### 3. Separate benefit categories
 
 The commercial model always separates four benefit categories and never blends them into one headline figure. Each has its own benchmark rule, not just its own evidence basis:
 
 - Category 1, AI productivity. May use a verified productivity benchmark (Primary verified, see Mandatory Analytical Behaviour 7) if one is available for this metric. If no verified benchmark is available, use client-owned baseline data only and state plainly that benchmark support is missing. Never invent an uplift percentage to fill the gap.
-- Category 2, Spend recovery. Finance and governance, not AI-attributable. Never use an AI productivity benchmark here, even a verified one, it measures a different thing.
-- Category 3, Tooling rationalisation. Use bottom-up tool cost data where available. Never use an AI productivity benchmark for licence rationalisation. If a top-down tooling estimate diverges from the bottom-up tool cost sum, flag the discrepancy per Mandatory Analytical Behaviour 4, don't average the two into a compromise figure.
-- Category 4, Revenue growth. Only where the client's own data includes a revenue-linked KPI: conversion rate, basket size, sales uplift, media efficiency, retailer sell-through, retention, or revenue per campaign. Never infer revenue from productivity, content volume, SLA achievement, throughput, or cycle-time figures, those measure output or speed, not revenue, and conflating them overstates the case. If no revenue-linked KPI exists, state exactly: "No revenue growth case is presented." Do not soften this into an estimate.
+- Category 2, Spend recovery. Finance and governance, not AI-attributable. Never use an AI productivity benchmark here, even a verified one; it measures a different thing.
+- Category 3, Tooling rationalisation. Use bottom-up tool cost data where available. Never use an AI productivity benchmark for licence rationalisation. If a top-down tooling estimate diverges from the bottom-up tool cost sum, flag the discrepancy per Mandatory Analytical Behaviour 4; do not average the two into a compromise figure.
+- Category 4, Revenue growth. Only where the client's own data includes a revenue-linked KPI: conversion rate, basket size, sales uplift, media efficiency, retailer sell-through, retention, or revenue per campaign. Never infer revenue from productivity, content volume, SLA achievement, throughput, or cycle-time figures; those measure output or speed, not revenue, and conflating them overstates the case. If no revenue-linked KPI exists, state exactly: "No revenue growth case is presented." Do not soften this into an estimate.
 
 Each category gets its own subsection with its own evidence basis. If the client's own data shows two of these figures sitting suspiciously close to each other (for example, an internal savings anchor that closely matches a separately tracked uncaptured-spend line), flag that as a likely conflation risk before it reaches a leadership deck.
 
@@ -104,9 +146,9 @@ Every commercial model category runs this comparison and states the result, even
 - Top-down: benchmark percentage applied to total relevant spend
 - Client-stated: any internal estimate already present in the client's own data
 - Bottom-up / tooling: sum of specifically identified items (named workflows, named duplicate tools, named spend lines)
-- Benchmark-derived: the raw public benchmark figure itself, before it's applied to this client's numbers
+- Benchmark-derived: the raw public benchmark figure itself, before it is applied to this client's numbers
 
-Label the relationship between whichever of these are available as one of: converges, diverges, not comparable, not evidenced. Converges and diverges both require at least two numbers to compare. Not comparable means two numbers exist but measure different things. Not evidenced means fewer than two of the four rows have data. If figures diverge, do not smooth it over, name the likely cause (broader scope, unconfirmed assumption, blended figure needing separation) and create a validation action for it in Section 12 and Section 14.
+Label the relationship between whichever of these are available as one of: converges, diverges, not comparable, not evidenced. Converges and diverges both require at least two numbers to compare. Not comparable means two numbers exist but measure different things. Not evidenced means fewer than two of the four rows have data. If figures diverge, do not smooth it over; name the likely cause (broader scope, unconfirmed assumption, blended figure needing separation) and create a validation action for it in Section 12 and Section 14.
 
 ### 5. Convert gaps into decisions
 
@@ -130,9 +172,9 @@ The 2x2 impact vs effort chart, and any other dense scatter-style visual, switch
 
 The skill is never dependent on its own benchmark library. It works three ways, checked in this order every run:
 
-**Mode 1, user-provided benchmark register.** If the user supplies their own benchmark register (input category 8), it is the preferred source ahead of the skill's default register, for any metric both cover. Validate every row against the 15-field schema below. Report back to the user, in the output or alongside it: how many rows were accepted, how many were excluded, and why each excluded row was excluded. Only use rows where evidence_status = Primary verified and allowed_use = Client-facing for client-facing claims. If a user-provided row is Secondary/internal, Internal challenge only, or Draft/unverified, use it only for internal-challenge notes, and only when the output itself is labelled internal, never as a client-facing claim. Never silently promote a user-provided row to Primary verified because the user's own file labelled it that way, independently check that all ten client-facing conditions below are actually met before trusting that label.
+**Mode 1, user-provided benchmark register.** If the user supplies their own benchmark register (input category 8), it is the preferred source ahead of the skill's default register, for any metric both cover. Validate every row against the 15-field schema below. Report back to the user, in the output or alongside it: how many rows were accepted, how many were excluded, and why each excluded row was excluded. Only use rows where evidence_status = Primary verified and allowed_use = Client-facing for client-facing claims. If a user-provided row is Secondary/internal, Internal challenge only, or Draft/unverified, use it only for internal-challenge notes, and only when the output itself is labelled internal; never as a client-facing claim. Never silently promote a user-provided row to Primary verified because the user's own file labelled it that way; independently check that all ten client-facing conditions below are actually met before trusting that label.
 
-**Mode 2, default verified register.** If no user-provided register is supplied, use `references/default-benchmark-register.md`. This file contains only rows that are already Primary verified and Client-facing, nothing else lives there. Do not reach into `references/benchmark-sourcing-backlog.md` for client-facing claims, that file is candidates, not usable output, ever, regardless of mode.
+**Mode 2, default verified register.** If no user-provided register is supplied, use `references/default-benchmark-register.md`. This file contains only rows that are already Primary verified and Client-facing; nothing else lives there. Do not reach into `references/benchmark-sourcing-backlog.md` for client-facing claims; that file is candidates, not usable output, ever, regardless of mode.
 
 **Mode 3, no verified benchmark available.** If neither the user-provided register nor the default register has a verified benchmark for a claim, the report does not fail and does not block. Do not invent a benchmark. Do not use an unverified one. State clearly: "No verified benchmark was provided for this claim. The analysis therefore uses client-owned baseline data only and should be treated as directional until a verified benchmark is supplied." Use client-owned baseline data only. Label the relevant output as directional or requiring validation. Add the gap to Leadership Decisions Needed if material, and to Recommended Next Steps, per Mandatory Analytical Behaviour 5.
 
@@ -188,7 +230,7 @@ These are build rules, not cosmetic preferences:
 
 ### Stage 1 — Ingest and extract
 
-Read whatever was shared. Pull out the seven input categories above into a working structure. Where a file is a source report export (HTML, structured JSON) rather than free text, extract directly. Where it's free text, meeting notes, or a partial list, extract what exists and flag what doesn't. Where categories 6 or 7 are present, extract them too, they feed Stage 4 and Stage 5 directly.
+Read whatever was shared. Pull out the seven input categories above into a working structure. Where a file is a source report export (HTML, structured JSON) rather than free text, extract directly. Where it is free text, meeting notes, or a partial list, extract what exists and flag what does not. Where categories 6 or 7 are present, extract them too; they feed Stage 4 and Stage 5 directly.
 
 Output of this stage (internal, not shown to user): a seven-part as-is state summary, each row tagged with an evidence level per Mandatory Analytical Behaviour 1.
 
@@ -208,9 +250,9 @@ This produces the priority workflow opportunities table, same shape as the "Prio
 
 Build three outputs:
 
-- **Future state roadmap**: phased (typically 3-4 phases), each phase with a named workflow scope, what changes, and a rough timeline. Do not invent timelines without basis, tie them to stated organizational complexity. Sequence by evidence confidence and AI readiness first, executive visibility second. If the source data provides its own pilot-wave or sequencing field, use it and verify it against the impact/effort scores rather than overriding it on sight.
-- **Future RACI**: same activities as the current RACI, redesigned to show where AI supports (prepares, routes, reports) versus where a named human role stays accountable for final decisions. Never assign AI as Accountable. This is a hard rule. Where Mandatory Analytical Behaviour 2 flagged a governance gap, carry that gap forward into the future-state RACI unchanged, do not resolve it with an assumption.
-- **Tech recommendations**: for each tool in the current stack, mark keep / replace / consolidate / validate, with a one-line reason. If the source data provides its own recommendation-candidate field, use it as the starting point and refine it into a decision-ready form, don't discard it in favour of a generic "validate everything" pass.
+- **Future state roadmap**: phased (typically 3-4 phases), each phase with a named workflow scope, what changes, and a rough timeline. Do not invent timelines without basis; tie them to stated organizational complexity. Sequence by evidence confidence and AI readiness first, executive visibility second. If the source data provides its own pilot-wave or sequencing field, use it and verify it against the impact/effort scores rather than overriding it on sight.
+- **Future RACI**: same activities as the current RACI, redesigned to show where AI supports (prepares, routes, reports) versus where a named human role stays accountable for final decisions. Never assign AI as Accountable. This is a hard rule. Where Mandatory Analytical Behaviour 2 flagged a governance gap, carry that gap forward into the future-state RACI unchanged; do not resolve it with an assumption.
+- **Tech recommendations**: for each tool in the current stack, mark keep / replace / consolidate / validate, with a one-line reason. If the source data provides its own recommendation-candidate field, use it as the starting point and refine it into a decision-ready form; do not discard it in favour of a generic "validate everything" pass.
 
 ### Stage 4 — Quantify
 
@@ -223,7 +265,7 @@ Four outputs, built together since they share inputs:
 
 ### Stage 5 — Assemble in NexaGlow Report Format
 
-Build the Word document. Read `/mnt/skills/public/docx/SKILL.md` before writing any docx code, table widths, list formatting, and image insertion all have specific gotchas there. Widen ID columns enough that short codes (WF01, KPI01, T01) don't wrap onto two lines. Verify the rendered PDF before delivering, not just that the script ran without error.
+Build the Word document. Read `/mnt/skills/public/docx/SKILL.md` before writing any docx code; table widths, list formatting, and image insertion all have specific gotchas there. Widen ID columns enough that short codes (WF01, KPI01, T01) do not wrap onto two lines. Verify the rendered PDF before delivering, not just that the script ran without error.
 
 Document sections, in order:
 
@@ -267,27 +309,27 @@ Do not mark a run production-ready without doing this, in order, every time:
 15. Check appendix pages are clearly labelled and separated from the main report.
 16. Check table header styling and column widths are consistent across the document.
 
-A run that fails any of these sixteen checks is not production-ready. Fix it before delivering, don't note it as a known issue and ship anyway.
+A run that fails any of these sixteen checks is not production-ready. Fix it before delivering; do not note it as a known issue and ship anyway.
 
 ## Reference files
 
 - `references/output-structure.md` — the exact section-by-section template, pulled from the approved reference example. Read this before assembling Stage 5.
-- `references/default-benchmark-register.md` — the skill's own small register, Primary verified and Client-facing rows only. This is Mode 2. Nothing in it needs re-checking at run time, if it's here, it already cleared all ten conditions.
+- `references/default-benchmark-register.md` — the skill's own small register, Primary verified and Client-facing rows only. This is Mode 2. Nothing in it needs re-checking at run time; if it is here, it already cleared all ten conditions.
 - `references/benchmark-sourcing-backlog.md` — candidate benchmarks, not yet verified. Internal-challenge use only, never client-facing, regardless of mode. This is where tracing work happens before a row graduates to the default register.
 - `references/commercial-model.md` — the four-category savings methodology, the category-specific benchmark rules, and the mandatory cross-check.
-- `RELEASE_NOTES.md` — version status, what's validated, release gate criteria, open escalation items. Read this before telling anyone this skill is ready for anything.
+- `RELEASE_NOTES.md` — version status, what is validated, release gate criteria, open escalation items. Read this before telling anyone this skill is ready for anything.
 
 ## Scripts
 
 - `scripts/generate_2x2.py` — builds the impact vs effort chart as a PNG for embedding in the docx. Uses numbered markers and a legend when workflow count makes inline labels collide.
 
-## Known gaps (tell the user, don't silently work around these)
+## Known gaps (tell the user, do not silently work around these)
 
 Full detail in `RELEASE_NOTES.md`. Summary:
 
 - Three test runs complete, build phase closed. No further mock-report iteration planned unless a regression is found.
 - `references/default-benchmark-register.md` now has one Primary verified, Client-facing row (McKinsey, 5-15% marketing productivity uplift), traced and confirmed directly against mckinsey.com. This is the only currently verified client-facing benchmark for Commercial Model Category 1. It may support a client-facing AI-productivity claim where the client's spend baseline and functional scope match the benchmark. It does not validate the client's baseline, benefit estimate, ROI or payback by itself.
-- `references/benchmark-sourcing-backlog.md` holds 12 further candidates, all Secondary/internal or Draft/unverified. One flagged discrepancy worth knowing: the commonly repeated "87% of marketers use GenAI" Salesforce figure could not be confirmed on a Salesforce-owned page, the primary page found states 75% for a related but different metric. Do not use 87% anywhere until the full report PDF is checked.
+- `references/benchmark-sourcing-backlog.md` holds 12 further candidates, all Secondary/internal or Draft/unverified. One flagged discrepancy worth knowing: the commonly repeated "87% of marketers use GenAI" Salesforce figure could not be confirmed on a Salesforce-owned page; the primary page found states 75% for a related but different metric. Do not use 87% anywhere until the full report PDF is checked.
 - Supabase storage decision is the only open architecture item, whether this skill logs outputs to the existing FSOMA memory layer or stays standalone. Naming is resolved, not open.
 
 ## Required wording for Mode 3
