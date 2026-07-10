@@ -1,10 +1,10 @@
-FSOMA Transformation Brief Skill, v0.9.0 Public Preview
+FSOMA Transformation Report Skill, v0.9.0 Public Preview
 
 Public preview on GitHub. Not yet listed on the Claude marketplace.
 
 What this skill does
 
-Turns client operating model data, workflows, tech stack, RACI, KPIs, spend, into a structured leadership transformation brief. Covers current state assessment, future state roadmap, future RACI, technology recommendations, a four category commercial model, and a collision-safe impact vs effort chart.
+Turns client operating model data, workflows, tech stack, RACI, KPIs, spend, into a structured leadership transformation report. Covers current state assessment, future state roadmap, future RACI, technology recommendations, a four category commercial model, and a collision-safe impact vs effort chart.
 
 Benchmark handling
 
