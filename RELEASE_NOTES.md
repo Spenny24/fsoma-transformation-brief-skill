@@ -1,4 +1,4 @@
-# FSOMA Transformation Brief Kit, v0.9, Public Preview
+# FSOMA Transformation Report Kit, v0.9, Public Preview
 
 ## Release status
 
@@ -28,7 +28,7 @@ This means public release does not require a large benchmark library. It require
 6. Uses chart-safe numbered markers and a legend whenever item count, label collision, or label length would otherwise produce an unreadable chart.
 7. Separates every KPI, RACI row, and technology entry by evidence confidence: Validated, Partially validated, Needs validation, Not evidenced.
 8. Uses Data Inventory and Risk & Assumption Register inputs when present, feeding KPI confidence, roadmap sequencing, automation readiness, reporting feasibility, commercial model confidence, the Executive Readout, and Recommended Next Steps.
-9. Produces a leadership brief with a clear consultant point of view, "Our recommendation" callouts after every major table, not a data dump.
+9. Produces a leadership report with a clear consultant point of view, "Our recommendation" callouts after every major table, not a data dump.
 10. Renders wide tables (more than 6 columns) as decision-critical summaries in the main body with full data in a landscape appendix, no header or ID wrapping.
 11. New this pass: runs in three benchmark modes and degrades gracefully to client-owned baseline data when no verified benchmark exists, rather than blocking report generation entirely.
 12. New this pass: validates user-provided benchmark rows against the schema independently, never takes a user's own evidence_status or allowed_use label at face value.
@@ -56,14 +56,25 @@ All of the following must be true before Claude marketplace listing. This is sep
 6. Claude marketplace listing copy is written. Not done. Draft positioning line exists in SKILL.md, full copy still needed. This is separate from the GitHub public preview, which does not require marketplace copy.
 7. Example input/output is sanitised for public display, and a GitHub README exists confirming FSOMA branding throughout. Done. Full public-packaging sweep passed: no legacy internal codename references, no agency-holding-company references, no real client names, no internal platform names from any prior engagement, sample output labelled fictional/synthetic on its cover page, no overstated automation claims anywhere in the public copy. README.md now exists at repo root, FSOMA-branded, and was missing before this sweep caught it.
 8. Client-facing benchmark mode excludes every non-Primary-verified source. Done, enforced in SKILL.md Behaviour 7 and proven against a real case (the Salesforce figure was correctly excluded, not smoothed over).
-9. Final QA checklist (11 items, SKILL.md, Mandatory pre-delivery visual QA) passes on the release candidate report. Passed on the Test 3 rebuild, not yet re-run against a report generated under the new three-mode logic.
+9. Final QA checklist (16 items, SKILL.md, Mandatory pre-delivery visual QA) passes on the release candidate report. Items 1-11 passed on the Test 3 rebuild. Items 12-16 (title-page appendix mislabelling, numbered-list rendering, appendix placement, appendix labelling, table header/column-width consistency) are new this pass, added after the BrightBite Foods test run surfaced exactly these polish defects, and have not yet been re-run end to end against a freshly generated report.
+
+## This pass: Brief to Report rename, NexaGlow contract restored, Word polish hardening
+
+This pass found that the published GitHub repo was behind the working copy of this skill: it still carried the pre-NexaGlow-contract SKILL.md and the old 6-section current-state-only `output-structure.md`, neither of which had been pushed here yet. Both are now brought up to date as part of this pass, alongside the rename:
+
+- Product and repo wording renamed from "Brief" to "Report" throughout: public name, technical identifier (`fsoma-transformation-report-skill`), section headings, example filenames. Ordinary uses of "brief" that refer to a client/creative brief (creative briefing, brief intake, pre-brief) were left unchanged, they are not the product name.
+- `SKILL.md` restored to include the Output Format Contract — NexaGlow Standard, the Stage 5 "Assemble in NexaGlow Report Format" heading, and Section 13 (Data Foundation Readiness) as unconditionally mandatory, none of which were present in the previously published version.
+- `references/output-structure.md` rewritten from the old 6-section current-state template to the full locked 14-section NexaGlow structure, matching what SKILL.md's Stage 5 has specified for several sessions.
+- Word output polish rules added: title-page format lock, appendix placement and labelling rules, numbered-list-to-bullet fallback, consistent table header styling, long-table-to-appendix rule, no orphaned page labels.
+- Mandatory pre-delivery visual QA extended from 11 to 16 checks, covering the polish rules above.
+- No change to any analytical or evidence rule: evidence tagging, RACI governance, the four-category commercial model split, the cross-check logic, or the Mode 3 required wording are all unchanged from the prior version.
 
 Six of nine gate items are now done, up from five before this pass.
 
 ## Open items, escalate to Craig, not solvable through more testing
 
 - Continue tracing `references/benchmark-sourcing-backlog.md`, one row at a time. Highest value next: confirm the Salesforce adoption figure via the full report PDF, since it is the second most commonly needed marketing-AI-maturity stat after the McKinsey productivity figure.
-- Final skill naming. Resolved this pass. Public name is FSOMA Transformation Brief Kit, repo name fsoma-transformation-brief-skill. No longer an open item.
+- Final skill naming. Renamed this pass from "Brief" to "Report." Public name is FSOMA Transformation Report Kit, repo name fsoma-transformation-report-skill. No longer an open item.
 - Supabase/storage decision, whether this skill logs outputs to the existing FSOMA memory layer or stays standalone.
 - Marketplace listing copy, full version.
 - Example input/output packaging for public display.
